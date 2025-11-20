@@ -5,10 +5,16 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from flask import Flask, send_from_directory
 from flask_cors import CORS
+# import des modeles
 from src.models.user import db
 from src.models.metrics import SystemMetrics, Volunteer, Task, PerformanceHistory
+from src.models.badge import Badge, VolunteerBadge
+
+#import des routes
 from src.routes.user import user_bp
 from src.routes.metrics import metrics_bp
+from src.routes.badges import badges_bp
+
 
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'))
 app.config['SECRET_KEY'] = 'asdf#FGSgvasgf$5$WGT'
@@ -18,7 +24,7 @@ CORS(app)
 
 app.register_blueprint(user_bp, url_prefix='/api')
 app.register_blueprint(metrics_bp, url_prefix='/api')
-
+app.register_blueprint(badges_bp, url_prefix='/api') 
 # Configuration de la base de données avec chemin relatif
 db_path = os.path.join(os.path.dirname(__file__), 'database', 'app.db')
 os.makedirs(os.path.dirname(db_path), exist_ok=True)  # Créer le répertoire si nécessaire
